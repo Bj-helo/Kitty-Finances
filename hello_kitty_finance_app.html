@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Pacifico&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --pink:#FF6B9D;--pink-light:#FFB3CC;--pink-pale:#FFF0F5;--pink-deep:#E0477A;
+    --red:#FF4757;--cream:#FFF8FA;--white:#FFFFFF;
+    --text:#3D1C2E;--text-mid:#7A4060;--text-soft:#B07090;
+    --border:#F5C6D8;--shadow:rgba(255,107,157,0.15);
+    --green:#4CAF82;--amber:#FFB347;--blue:#5B9BF0;
+  }
+  body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--text);min-height:100vh;padding:0 0 40px}
+
+  /* HEADER */
+  .header{background:linear-gradient(135deg,#FF6B9D 0%,#FF9DC4 50%,#FFB3CC 100%);padding:16px 20px;text-align:center;position:relative;overflow:hidden}
+  .header::before{content:'';position:absolute;top:-20px;left:-20px;width:100px;height:100px;background:rgba(255,255,255,0.1);border-radius:50%}
+  .header::after{content:'';position:absolute;bottom:-30px;right:-10px;width:120px;height:120px;background:rgba(255,255,255,0.08);border-radius:50%}
+  .kitty-face{font-size:48px;display:block;margin-bottom:4px;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.1))}
+  .app-title{font-family:'Pacifico',cursive;font-size:22px;color:#fff;text-shadow:0 2px 4px rgba(0,0,0,0.15);letter-spacing:1px}
+  .app-subtitle{font-size:12px;color:rgba(255,255,255,0.85);margin-top:2px;font-weight:600}
+
+  /* STARS decoration */
+  .stars{position:absolute;top:10px;right:20px;display:flex;gap:4px}
+  .star{font-size:14px;animation:twinkle 2s infinite}
+  .star:nth-child(2){animation-delay:.5s}
+  .star:nth-child(3){animation-delay:1s}
+  @keyframes twinkle{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+
+  /* NAV */
+  .nav{display:flex;background:#fff;border-bottom:2px solid var(--border);position:sticky;top:0;z-index:100}
+  .nav-btn{flex:1;padding:12px 8px;border:none;background:none;font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;color:var(--text-soft);cursor:pointer;transition:all .2s;border-bottom:3px solid transparent;display:flex;flex-direction:column;align-items:center;gap:2px}
+  .nav-btn.active{color:var(--pink);border-bottom-color:var(--pink);background:var(--pink-pale)}
+  .nav-btn:hover:not(.active){background:#FFF5F8;color:var(--pink)}
+  .nav-icon{font-size:18px}
+
+  /* SECTIONS */
+  .section{display:none;padding:16px}
+  .section.active{display:block}
+
+  /* CARDS */
+  .card{background:#fff;border-radius:16px;border:1.5px solid var(--border);padding:16px;margin-bottom:14px;box-shadow:0 4px 12px var(--shadow)}
+  .card-title{font-size:14px;font-weight:800;color:var(--text);display:flex;align-items:center;gap:6px;margin-bottom:12px}
+  .card-title .icon{font-size:18px}
+
+  /* SUMMARY BOXES */
+  .summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+  .summary-box{border-radius:14px;padding:14px 12px;text-align:center}
+  .summary-box.income{background:linear-gradient(135deg,#E8F8F0,#C8F0DD);border:1.5px solid #A8E0C0}
+  .summary-box.expense{background:linear-gradient(135deg,#FFF0F5,#FFD6E7);border:1.5px solid var(--pink-light)}
+  .summary-box.balance-pos{background:linear-gradient(135deg,#EEF4FF,#D0E4FF);border:1.5px solid #A0C4FF}
+  .summary-box.balance-neg{background:linear-gradient(135deg,#FFF0F0,#FFD0D0);border:1.5px solid #FFA0A0}
+  .summary-box.debt{background:linear-gradient(135deg,#FFF8E8,#FFE8B0);border:1.5px solid #FFD070}
+  .summary-label{font-size:11px;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+  .summary-value{font-size:20px;font-weight:800;color:var(--text)}
+  .summary-value.green{color:#2A9660}
+  .summary-value.pink{color:var(--pink-deep)}
+  .summary-value.blue{color:#2860C0}
+  .summary-value.amber{color:#C07000}
+
+  /* FORM */
+  .form-row{display:flex;flex-direction:column;gap:6px;margin-bottom:10px}
+  .form-row label{font-size:12px;font-weight:700;color:var(--text-mid)}
+  .form-row input,.form-row select{width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:10px;font-family:'Nunito',sans-serif;font-size:14px;color:var(--text);background:#fff;outline:none;transition:border .2s}
+  .form-row input:focus,.form-row select:focus{border-color:var(--pink)}
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .btn{width:100%;padding:12px;border:none;border-radius:12px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:6px}
+  .btn-primary{background:linear-gradient(135deg,var(--pink),var(--pink-deep));color:#fff;box-shadow:0 4px 12px rgba(255,107,157,.35)}
+  .btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(255,107,157,.45)}
+  .btn-primary:active{transform:translateY(0)}
+  .btn-danger{background:linear-gradient(135deg,#FF6B7A,#E0304A);color:#fff;padding:6px 10px;width:auto;font-size:12px;border-radius:8px}
+
+  /* LIST ITEMS */
+  .item-list{display:flex;flex-direction:column;gap:8px}
+  .item{display:flex;align-items:center;gap:10px;background:var(--pink-pale);border-radius:12px;padding:10px 12px;border:1px solid var(--border);animation:slideIn .3s ease}
+  @keyframes slideIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+  .item-icon{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+  .item-info{flex:1;min-width:0}
+  .item-name{font-size:13px;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .item-meta{font-size:11px;color:var(--text-soft);margin-top:1px}
+  .item-amount{font-size:15px;font-weight:800;flex-shrink:0}
+  .item-amount.expense{color:var(--pink-deep)}
+  .item-amount.income{color:#2A9660}
+
+  /* PROGRESS BAR */
+  .progress-wrap{margin-top:8px}
+  .progress-label{display:flex;justify-content:space-between;font-size:11px;color:var(--text-soft);margin-bottom:4px;font-weight:700}
+  .progress-bar{height:8px;background:#F0D0DC;border-radius:99px;overflow:hidden}
+  .progress-fill{height:100%;border-radius:99px;transition:width .5s ease;background:linear-gradient(90deg,var(--pink),var(--pink-deep))}
+  .progress-fill.safe{background:linear-gradient(90deg,#4CAF82,#2A9660)}
+  .progress-fill.warning{background:linear-gradient(90deg,#FFB347,#E08000)}
+  .progress-fill.danger{background:linear-gradient(90deg,#FF6B7A,#E0304A)}
+
+  /* DEBT ITEM */
+  .debt-item{background:#fff;border-radius:14px;padding:14px;border:1.5px solid var(--border);margin-bottom:10px;box-shadow:0 2px 8px var(--shadow);animation:slideIn .3s ease}
+  .debt-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+  .debt-name{font-size:14px;font-weight:800;color:var(--text)}
+  .debt-badge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:99px}
+  .debt-badge.active{background:#FFE0EC;color:var(--pink-deep)}
+  .debt-badge.paid{background:#D0F0E0;color:#1A7A50}
+  .debt-details{display:flex;gap:12px;font-size:12px;color:var(--text-soft);margin-bottom:8px;flex-wrap:wrap}
+  .debt-detail strong{color:var(--text);font-weight:700}
+  .debt-actions{display:flex;gap:8px;justify-content:flex-end}
+  .btn-pay{background:linear-gradient(135deg,#4CAF82,#2A9660);color:#fff;padding:6px 12px;border:none;border-radius:8px;font-family:'Nunito',sans-serif;font-size:12px;font-weight:700;cursor:pointer}
+  .btn-pay:hover{transform:translateY(-1px)}
+
+  /* CATEGORY CHIPS */
+  .category-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+  .chip{padding:5px 12px;border-radius:99px;font-size:12px;font-weight:700;cursor:pointer;border:1.5px solid transparent;transition:all .2s}
+  .chip.selected{border-color:var(--pink);background:var(--pink-pale);color:var(--pink-deep)}
+  .chip:not(.selected){background:#F5E8EF;color:var(--text-soft)}
+
+  /* CHART */
+  .chart-bars{display:flex;align-items:flex-end;gap:6px;height:100px;margin:8px 0 4px;padding:0 4px}
+  .bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px}
+  .bar{width:100%;border-radius:6px 6px 0 0;transition:height .5s ease;min-height:4px;position:relative}
+  .bar-label{font-size:9px;font-weight:700;color:var(--text-soft);text-align:center}
+  .bar-val{font-size:9px;font-weight:800;color:var(--text-mid);text-align:center}
+
+  /* EMPTY STATE */
+  .empty{text-align:center;padding:24px 16px;color:var(--text-soft)}
+  .empty .emoji{font-size:36px;display:block;margin-bottom:8px}
+  .empty p{font-size:13px;font-weight:600}
+
+  /* MONTH SELECTOR */
+  .month-bar{display:flex;align-items:center;justify-content:space-between;background:#fff;border-radius:12px;border:1.5px solid var(--border);padding:10px 14px;margin-bottom:14px}
+  .month-nav{background:none;border:none;font-size:20px;cursor:pointer;color:var(--pink);padding:0 4px;font-weight:800}
+  .month-label{font-size:15px;font-weight:800;color:var(--text)}
+
+  /* TAGS */
+  .cat-tag{font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px;background:var(--pink-pale);color:var(--pink-deep)}
+
+  /* RIBBON */
+  .ribbon{background:linear-gradient(90deg,var(--pink-pale),#FFF0F5);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:700;color:var(--text-mid);display:flex;align-items:center;gap:6px;margin-bottom:10px}
+
+  .divider{height:1px;background:var(--border);margin:12px 0}
+  .section-head{font-size:13px;font-weight:800;color:var(--text-soft);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="stars">
+    <span class="star">✦</span><span class="star">✦</span><span class="star">✦</span>
+  </div>
+  <span class="kitty-face">🎀</span>
+  <div class="app-title">Kitty Finance</div>
+  <div class="app-subtitle">seu controle financeiro fofo ✨</div>
+</div>
+
+<nav class="nav">
+  <button class="nav-btn active" onclick="showSection('dashboard')" id="tab-dashboard">
+    <span class="nav-icon">🏠</span>Dashboard
+  </button>
+  <button class="nav-btn" onclick="showSection('gastos')" id="tab-gastos">
+    <span class="nav-icon">🛍️</span>Gastos
+  </button>
+  <button class="nav-btn" onclick="showSection('dividas')" id="tab-dividas">
+    <span class="nav-icon">💳</span>Dívidas
+  </button>
+</nav>
+
+<!-- ═══════════ DASHBOARD ═══════════ -->
+<div class="section active" id="section-dashboard">
+
+  <div class="month-bar">
+    <button class="month-nav" onclick="changeMonth(-1)">‹</button>
+    <span class="month-label" id="month-label">Abril 2026</span>
+    <button class="month-nav" onclick="changeMonth(1)">›</button>
+  </div>
+
+  <div class="summary-grid">
+    <div class="summary-box income">
+      <div class="summary-label">💚 Receitas</div>
+      <div class="summary-value green" id="dash-income">R$ 0</div>
+    </div>
+    <div class="summary-box expense">
+      <div class="summary-label">🌸 Despesas</div>
+      <div class="summary-value pink" id="dash-expense">R$ 0</div>
+    </div>
+  </div>
+  <div class="summary-grid">
+    <div class="summary-box balance-pos" id="balance-box">
+      <div class="summary-label">✨ Saldo</div>
+      <div class="summary-value blue" id="dash-balance">R$ 0</div>
+    </div>
+    <div class="summary-box debt">
+      <div class="summary-label">💳 Total Dívidas</div>
+      <div class="summary-value amber" id="dash-debt">R$ 0</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">📊</span> Gastos por Categoria</div>
+    <div id="category-chart">
+      <div class="empty"><span class="emoji">🌸</span><p>Adicione gastos para ver o gráfico</p></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">🕐</span> Últimos Lançamentos</div>
+    <div id="recent-list">
+      <div class="empty"><span class="emoji">🎀</span><p>Nenhum lançamento ainda</p></div>
+    </div>
+  </div>
+
+  <div class="card" id="debt-progress-card" style="display:none">
+    <div class="card-title"><span class="icon">💳</span> Progresso das Dívidas</div>
+    <div id="debt-progress-list"></div>
+  </div>
+
+</div>
+
+<!-- ═══════════ GASTOS ═══════════ -->
+<div class="section" id="section-gastos">
+
+  <div class="card">
+    <div class="card-title"><span class="icon">➕</span> Novo Lançamento</div>
+
+    <div class="form-row">
+      <label>Tipo</label>
+      <div style="display:flex;gap:8px">
+        <button class="btn" id="tipo-gasto" onclick="setTipo('gasto')" style="background:linear-gradient(135deg,var(--pink),var(--pink-deep));color:#fff;padding:8px;font-size:13px;border-radius:10px;flex:1">🛍️ Despesa</button>
+        <button class="btn" id="tipo-receita" onclick="setTipo('receita')" style="background:#F0F0F0;color:var(--text-soft);padding:8px;font-size:13px;border-radius:10px;flex:1">💚 Receita</button>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <label>Descrição</label>
+      <input type="text" id="desc-input" placeholder="ex: Mercado, Salário..." maxlength="40">
+    </div>
+
+    <div class="form-grid">
+      <div class="form-row">
+        <label>Valor (R$)</label>
+        <input type="number" id="valor-input" placeholder="0,00" min="0" step="0.01">
+      </div>
+      <div class="form-row">
+        <label>Data</label>
+        <input type="date" id="data-input">
+      </div>
+    </div>
+
+    <div class="form-row" id="cat-row">
+      <label>Categoria</label>
+      <select id="cat-input">
+        <option value="🍔 Alimentação">🍔 Alimentação</option>
+        <option value="🏠 Moradia">🏠 Moradia</option>
+        <option value="🚗 Transporte">🚗 Transporte</option>
+        <option value="💊 Saúde">💊 Saúde</option>
+        <option value="👗 Roupas">👗 Roupas</option>
+        <option value="🎮 Lazer">🎮 Lazer</option>
+        <option value="📚 Educação">📚 Educação</option>
+        <option value="💄 Beleza">💄 Beleza</option>
+        <option value="🐾 Pet">🐾 Pet</option>
+        <option value="📱 Assinaturas">📱 Assinaturas</option>
+        <option value="🎁 Presentes">🎁 Presentes</option>
+        <option value="💰 Outros">💰 Outros</option>
+      </select>
+    </div>
+
+    <button class="btn btn-primary" onclick="addLancamento()">
+      <span>🎀</span> Adicionar
+    </button>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">📋</span> Todos os Lançamentos</div>
+    <div id="filter-chips" class="category-chips">
+      <span class="chip selected" onclick="filterCat('todos',this)">✨ Todos</span>
+      <span class="chip" onclick="filterCat('receita',this)">💚 Receitas</span>
+      <span class="chip" onclick="filterCat('despesa',this)">🛍️ Despesas</span>
+    </div>
+    <div id="lancamentos-list">
+      <div class="empty"><span class="emoji">🌸</span><p>Nenhum lançamento ainda</p></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════ DÍVIDAS ═══════════ -->
+<div class="section" id="section-dividas">
+
+  <div class="card">
+    <div class="card-title"><span class="icon">➕</span> Nova Dívida</div>
+
+    <div class="form-row">
+      <label>Nome da Dívida</label>
+      <input type="text" id="divida-nome" placeholder="ex: Cartão Nubank..." maxlength="40">
+    </div>
+
+    <div class="form-grid">
+      <div class="form-row">
+        <label>Total (R$)</label>
+        <input type="number" id="divida-total" placeholder="0,00" min="0" step="0.01">
+      </div>
+      <div class="form-row">
+        <label>Parcelas</label>
+        <input type="number" id="divida-parcelas" placeholder="ex: 12" min="1" step="1">
+      </div>
+    </div>
+
+    <div class="form-grid">
+      <div class="form-row">
+        <label>Parcela Mensal (R$)</label>
+        <input type="number" id="divida-mensal" placeholder="0,00" min="0" step="0.01">
+      </div>
+      <div class="form-row">
+        <label>Vencimento Dia</label>
+        <input type="number" id="divida-dia" placeholder="ex: 15" min="1" max="31">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <label>Credor / Banco</label>
+      <input type="text" id="divida-credor" placeholder="ex: Nubank, Família..." maxlength="30">
+    </div>
+
+    <button class="btn btn-primary" onclick="addDivida()">
+      <span>💳</span> Registrar Dívida
+    </button>
+  </div>
+
+  <div id="dividas-list">
+    <div class="empty" style="margin-top:8px"><span class="emoji">🎀</span><p>Nenhuma dívida registrada</p></div>
+  </div>
+
+</div>
+
+<script>
+const MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+let currentMonth = 3;
+let currentYear = 2026;
+let tipoAtual = 'gasto';
+let filterAtual = 'todos';
+
+let lancamentos = [];
+let dividas = [];
+let nextId = 1;
+let nextDId = 1;
+
+function fmt(v){return 'R$ '+parseFloat(v).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})}
+function fmtShort(v){
+  v=parseFloat(v);
+  if(v>=1000)return 'R$'+(v/1000).toFixed(1)+'k';
+  return 'R$'+v.toFixed(0);
+}
+
+function showSection(s){
+  document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(x=>x.classList.remove('active'));
+  document.getElementById('section-'+s).classList.add('active');
+  document.getElementById('tab-'+s).classList.add('active');
+  if(s==='dashboard')updateDashboard();
+  if(s==='gastos')renderLancamentos();
+  if(s==='dividas')renderDividas();
+}
+
+function changeMonth(d){
+  currentMonth+=d;
+  if(currentMonth>11){currentMonth=0;currentYear++}
+  if(currentMonth<0){currentMonth=11;currentYear--}
+  document.getElementById('month-label').textContent=MESES[currentMonth]+' '+currentYear;
+  updateDashboard();
+}
+
+function setTipo(t){
+  tipoAtual=t;
+  const gb=document.getElementById('tipo-gasto');
+  const rb=document.getElementById('tipo-receita');
+  const cr=document.getElementById('cat-row');
+  if(t==='gasto'){
+    gb.style.background='linear-gradient(135deg,var(--pink),var(--pink-deep))';gb.style.color='#fff';
+    rb.style.background='#F0F0F0';rb.style.color='var(--text-soft)';
+    cr.style.display='flex';
+  } else {
+    rb.style.background='linear-gradient(135deg,#4CAF82,#2A9660)';rb.style.color='#fff';
+    gb.style.background='#F0F0F0';gb.style.color='var(--text-soft)';
+    cr.style.display='none';
+  }
+}
+
+function addLancamento(){
+  const desc=document.getElementById('desc-input').value.trim();
+  const val=parseFloat(document.getElementById('valor-input').value);
+  const data=document.getElementById('data-input').value;
+  const cat=document.getElementById('cat-input').value;
+  if(!desc){alert('🎀 Coloca uma descrição fofa!');return}
+  if(!val||val<=0){alert('🎀 Valor inválido!');return}
+  if(!data){alert('🎀 Escolhe uma data!');return}
+  const d=new Date(data+'T12:00:00');
+  lancamentos.push({id:nextId++,desc,val,data,cat:tipoAtual==='receita'?'💚 Receita':cat,tipo:tipoAtual,mes:d.getMonth(),ano:d.getFullYear()});
+  document.getElementById('desc-input').value='';
+  document.getElementById('valor-input').value='';
+  renderLancamentos();
+  updateDashboard();
+  showSection('gastos');
+}
+
+function removeLancamento(id){
+  lancamentos=lancamentos.filter(l=>l.id!==id);
+  renderLancamentos();
+  updateDashboard();
+}
+
+function renderLancamentos(){
+  const list=document.getElementById('lancamentos-list');
+  let items=lancamentos.filter(l=>l.mes===currentMonth&&l.ano===currentYear);
+  if(filterAtual==='receita')items=items.filter(l=>l.tipo==='receita');
+  else if(filterAtual==='despesa')items=items.filter(l=>l.tipo==='gasto');
+  items.sort((a,b)=>b.id-a.id);
+  if(!items.length){list.innerHTML='<div class="empty"><span class="emoji">🌸</span><p>Nenhum lançamento neste mês</p></div>';return}
+  list.innerHTML=items.map(l=>`
+    <div class="item">
+      <div class="item-icon" style="background:${l.tipo==='receita'?'#D0F0E0':'var(--pink-pale)'}">${l.cat.split(' ')[0]}</div>
+      <div class="item-info">
+        <div class="item-name">${l.desc}</div>
+        <div class="item-meta">${l.cat.replace(/^\S+\s/,'')} · ${new Date(l.data+'T12:00:00').toLocaleDateString('pt-BR')}</div>
+      </div>
+      <div class="item-amount ${l.tipo==='receita'?'income':'expense'}">${l.tipo==='receita'?'+':'-'}${fmt(l.val)}</div>
+      <button class="btn btn-danger" onclick="removeLancamento(${l.id})">✕</button>
+    </div>
+  `).join('');
+}
+
+function filterCat(f,el){
+  filterAtual=f;
+  document.querySelectorAll('#filter-chips .chip').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+  renderLancamentos();
+}
+
+function addDivida(){
+  const nome=document.getElementById('divida-nome').value.trim();
+  const total=parseFloat(document.getElementById('divida-total').value)||0;
+  const parcelas=parseInt(document.getElementById('divida-parcelas').value)||1;
+  const mensal=parseFloat(document.getElementById('divida-mensal').value)||Math.round((total/parcelas)*100)/100;
+  const dia=parseInt(document.getElementById('divida-dia').value)||1;
+  const credor=document.getElementById('divida-credor').value.trim()||'Não informado';
+  if(!nome){alert('🎀 Coloca o nome da dívida!');return}
+  if(!total||total<=0){alert('🎀 Valor inválido!');return}
+  dividas.push({id:nextDId++,nome,total,parcelas,pago:0,parcelasPagas:0,mensal,dia,credor,ativa:true});
+  document.getElementById('divida-nome').value='';
+  document.getElementById('divida-total').value='';
+  document.getElementById('divida-parcelas').value='';
+  document.getElementById('divida-mensal').value='';
+  document.getElementById('divida-dia').value='';
+  document.getElementById('divida-credor').value='';
+  renderDividas();
+  updateDashboard();
+}
+
+function pagarParcela(id){
+  const d=dividas.find(x=>x.id===id);
+  if(!d||!d.ativa)return;
+  d.pago=Math.min(d.pago+d.mensal,d.total);
+  d.parcelasPagas++;
+  if(d.parcelasPagas>=d.parcelas){d.ativa=false}
+  renderDividas();
+  updateDashboard();
+}
+
+function removeDivida(id){
+  dividas=dividas.filter(d=>d.id!==id);
+  renderDividas();
+  updateDashboard();
+}
+
+function renderDividas(){
+  const list=document.getElementById('dividas-list');
+  if(!dividas.length){list.innerHTML='<div class="empty" style="margin-top:8px"><span class="emoji">🎀</span><p>Nenhuma dívida registrada</p></div>';return}
+  list.innerHTML=dividas.map(d=>{
+    const pct=Math.min(100,Math.round((d.pago/d.total)*100));
+    const restante=Math.max(0,d.total-d.pago);
+    const fillClass=pct<50?'safe':pct<80?'warning':'danger';
+    return`<div class="debt-item">
+      <div class="debt-header">
+        <div class="debt-name">💳 ${d.nome}</div>
+        <span class="debt-badge ${d.ativa?'active':'paid'}">${d.ativa?'Em aberto':'✓ Quitada'}</span>
+      </div>
+      <div class="debt-details">
+        <span>Total: <strong>${fmt(d.total)}</strong></span>
+        <span>Parcela: <strong>${fmt(d.mensal)}</strong></span>
+        <span>Vence dia <strong>${d.dia}</strong></span>
+        <span>Credor: <strong>${d.credor}</strong></span>
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-label"><span>${pct}% pago</span><span>Resta ${fmt(restante)}</span></div>
+        <div class="progress-bar"><div class="progress-fill ${fillClass}" style="width:${pct}%"></div></div>
+      </div>
+      <div style="margin-top:8px;font-size:11px;color:var(--text-soft);font-weight:700">${d.parcelasPagas}/${d.parcelas} parcelas pagas</div>
+      <div class="debt-actions" style="margin-top:8px">
+        ${d.ativa?`<button class="btn-pay" onclick="pagarParcela(${d.id})">✓ Registrar Parcela</button>`:''}
+        <button class="btn btn-danger" onclick="removeDivida(${d.id})">✕ Remover</button>
+      </div>
+    </div>`
+  }).join('');
+}
+
+function updateDashboard(){
+  const mesLanc=lancamentos.filter(l=>l.mes===currentMonth&&l.ano===currentYear);
+  const receitas=mesLanc.filter(l=>l.tipo==='receita').reduce((s,l)=>s+l.val,0);
+  const despesas=mesLanc.filter(l=>l.tipo==='gasto').reduce((s,l)=>s+l.val,0);
+  const saldo=receitas-despesas;
+  const totalDividas=dividas.filter(d=>d.ativa).reduce((s,d)=>s+Math.max(0,d.total-d.pago),0);
+
+  document.getElementById('dash-income').textContent=fmt(receitas);
+  document.getElementById('dash-expense').textContent=fmt(despesas);
+  document.getElementById('dash-balance').textContent=fmt(Math.abs(saldo));
+  document.getElementById('dash-balance').className='summary-value '+(saldo>=0?'blue':'pink');
+  const bb=document.getElementById('balance-box');
+  bb.className='summary-box '+(saldo>=0?'balance-pos':'balance-neg');
+  bb.querySelector('.summary-label').textContent=saldo>=0?'✨ Saldo':'⚠️ Saldo neg.';
+  document.getElementById('dash-debt').textContent=fmt(totalDividas);
+
+  // Chart
+  const catChart=document.getElementById('category-chart');
+  const gastos=mesLanc.filter(l=>l.tipo==='gasto');
+  if(!gastos.length){catChart.innerHTML='<div class="empty"><span class="emoji">🌸</span><p>Adicione gastos para ver o gráfico</p></div>';}
+  else{
+    const cats={};
+    gastos.forEach(g=>{cats[g.cat]=(cats[g.cat]||0)+g.val});
+    const sorted=Object.entries(cats).sort((a,b)=>b[1]-a[1]).slice(0,6);
+    const max=sorted[0][1];
+    const colors=['#FF6B9D','#FFB347','#5B9BF0','#4CAF82','#B07090','#FF6B7A'];
+    catChart.innerHTML=`<div class="chart-bars">${sorted.map(([cat,val],i)=>`
+      <div class="bar-wrap">
+        <div class="bar-val">${fmtShort(val)}</div>
+        <div class="bar" style="height:${Math.max(8,Math.round((val/max)*80))}px;background:${colors[i%colors.length]}"></div>
+        <div class="bar-label">${cat.split(' ')[0]}</div>
+      </div>`).join('')}
+    </div>`;
+  }
+
+  // Recent
+  const recent=document.getElementById('recent-list');
+  const all=[...lancamentos].sort((a,b)=>b.id-a.id).slice(0,4);
+  if(!all.length){recent.innerHTML='<div class="empty"><span class="emoji">🎀</span><p>Nenhum lançamento ainda</p></div>';}
+  else{recent.innerHTML=`<div class="item-list">${all.map(l=>`
+    <div class="item">
+      <div class="item-icon" style="background:${l.tipo==='receita'?'#D0F0E0':'var(--pink-pale)'}">${l.cat.split(' ')[0]}</div>
+      <div class="item-info">
+        <div class="item-name">${l.desc}</div>
+        <div class="item-meta">${new Date(l.data+'T12:00:00').toLocaleDateString('pt-BR')}</div>
+      </div>
+      <div class="item-amount ${l.tipo==='receita'?'income':'expense'}">${l.tipo==='receita'?'+':'-'}${fmt(l.val)}</div>
+    </div>`).join('')}</div>`;}
+
+  // Debt progress
+  const dp=document.getElementById('debt-progress-card');
+  const dpl=document.getElementById('debt-progress-list');
+  const activeDividas=dividas.filter(d=>d.ativa);
+  if(!activeDividas.length){dp.style.display='none';}
+  else{
+    dp.style.display='block';
+    dpl.innerHTML=activeDividas.map(d=>{
+      const pct=Math.min(100,Math.round((d.pago/d.total)*100));
+      const fillClass=pct<50?'safe':pct<80?'warning':'danger';
+      return`<div class="progress-wrap" style="margin-bottom:10px">
+        <div class="progress-label"><span>💳 ${d.nome}</span><span>${fmt(Math.max(0,d.total-d.pago))} restante</span></div>
+        <div class="progress-bar"><div class="progress-fill ${fillClass}" style="width:${pct}%"></div></div>
+      </div>`;
+    }).join('');
+  }
+}
+
+// set today's date
+const today=new Date();
+document.getElementById('data-input').value=today.toISOString().split('T')[0];
+updateDashboard();
+</script>
+</body>
+</html>
