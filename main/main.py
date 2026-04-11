@@ -5,12 +5,11 @@ from PyQt6.QtWebEngineWidgets import QWebEngineView
 from PyQt6.QtCore import QUrl
 
 
-# 🔥 FUNÇÃO QUE FUNCIONA NO PYCHARM E NO EXE
 def resource_path(relative_path):
     try:
-        base_path = sys._MEIPASS  # quando está em .exe
+        base_path = sys._MEIPASS  
     except Exception:
-        base_path = os.path.abspath(".")  # quando está no PyCharm
+        base_path = os.path.abspath(".")  
 
     return os.path.join(base_path, relative_path)
 
@@ -20,11 +19,11 @@ def main():
 
     view = QWebEngineView()
 
-    # 📄 pega o HTML do jeito seguro
+    #pega o HTML do jeito seguro, foi feito no PC da empresa rs
     file_path = resource_path("hello_kitty_finance_app.html")
     view.load(QUrl.fromLocalFile(file_path))
 
-    # 🌐 carrega no navegador interno
+    #carrega no navegador interno
     view.load(QUrl.fromLocalFile(file_path))
 
     view.setWindowTitle("💖 Kitty Finances")
