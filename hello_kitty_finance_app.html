@@ -15,7 +15,7 @@
   }
   body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--text);min-height:100vh;padding:0 0 40px}
 
-  /* HEADER */
+  
   .header{background:linear-gradient(135deg,#FF6B9D 0%,#FF9DC4 50%,#FFB3CC 100%);padding:16px 20px;text-align:center;position:relative;overflow:hidden}
   .header::before{content:'';position:absolute;top:-20px;left:-20px;width:100px;height:100px;background:rgba(255,255,255,0.1);border-radius:50%}
   .header::after{content:'';position:absolute;bottom:-30px;right:-10px;width:120px;height:120px;background:rgba(255,255,255,0.08);border-radius:50%}
@@ -23,30 +23,30 @@
   .app-title{font-family:'Pacifico',cursive;font-size:22px;color:#fff;text-shadow:0 2px 4px rgba(0,0,0,0.15);letter-spacing:1px}
   .app-subtitle{font-size:12px;color:rgba(255,255,255,0.85);margin-top:2px;font-weight:600}
 
-  /* STARS decoration */
+  
   .stars{position:absolute;top:10px;right:20px;display:flex;gap:4px}
   .star{font-size:14px;animation:twinkle 2s infinite}
   .star:nth-child(2){animation-delay:.5s}
   .star:nth-child(3){animation-delay:1s}
   @keyframes twinkle{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
 
-  /* NAV */
+  
   .nav{display:flex;background:#fff;border-bottom:2px solid var(--border);position:sticky;top:0;z-index:100}
   .nav-btn{flex:1;padding:12px 8px;border:none;background:none;font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;color:var(--text-soft);cursor:pointer;transition:all .2s;border-bottom:3px solid transparent;display:flex;flex-direction:column;align-items:center;gap:2px}
   .nav-btn.active{color:var(--pink);border-bottom-color:var(--pink);background:var(--pink-pale)}
   .nav-btn:hover:not(.active){background:#FFF5F8;color:var(--pink)}
   .nav-icon{font-size:18px}
 
-  /* SECTIONS */
+  
   .section{display:none;padding:16px}
   .section.active{display:block}
 
-  /* CARDS */
+  
   .card{background:#fff;border-radius:16px;border:1.5px solid var(--border);padding:16px;margin-bottom:14px;box-shadow:0 4px 12px var(--shadow)}
   .card-title{font-size:14px;font-weight:800;color:var(--text);display:flex;align-items:center;gap:6px;margin-bottom:12px}
   .card-title .icon{font-size:18px}
 
-  /* SUMMARY BOXES */
+  
   .summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
   .summary-box{border-radius:14px;padding:14px 12px;text-align:center}
   .summary-box.income{background:linear-gradient(135deg,#E8F8F0,#C8F0DD);border:1.5px solid #A8E0C0}
@@ -61,7 +61,7 @@
   .summary-value.blue{color:#2860C0}
   .summary-value.amber{color:#C07000}
 
-  /* FORM */
+  
   .form-row{display:flex;flex-direction:column;gap:6px;margin-bottom:10px}
   .form-row label{font-size:12px;font-weight:700;color:var(--text-mid)}
   .form-row input,.form-row select{width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:10px;font-family:'Nunito',sans-serif;font-size:14px;color:var(--text);background:#fff;outline:none;transition:border .2s}
@@ -73,7 +73,7 @@
   .btn-primary:active{transform:translateY(0)}
   .btn-danger{background:linear-gradient(135deg,#FF6B7A,#E0304A);color:#fff;padding:6px 10px;width:auto;font-size:12px;border-radius:8px}
 
-  /* LIST ITEMS */
+  
   .item-list{display:flex;flex-direction:column;gap:8px}
   .item{display:flex;align-items:center;gap:10px;background:var(--pink-pale);border-radius:12px;padding:10px 12px;border:1px solid var(--border);animation:slideIn .3s ease}
   @keyframes slideIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
@@ -85,7 +85,7 @@
   .item-amount.expense{color:var(--pink-deep)}
   .item-amount.income{color:#2A9660}
 
-  /* PROGRESS BAR */
+  
   .progress-wrap{margin-top:8px}
   .progress-label{display:flex;justify-content:space-between;font-size:11px;color:var(--text-soft);margin-bottom:4px;font-weight:700}
   .progress-bar{height:8px;background:#F0D0DC;border-radius:99px;overflow:hidden}
@@ -94,7 +94,7 @@
   .progress-fill.warning{background:linear-gradient(90deg,#FFB347,#E08000)}
   .progress-fill.danger{background:linear-gradient(90deg,#FF6B7A,#E0304A)}
 
-  /* DEBT ITEM */
+  
   .debt-item{background:#fff;border-radius:14px;padding:14px;border:1.5px solid var(--border);margin-bottom:10px;box-shadow:0 2px 8px var(--shadow);animation:slideIn .3s ease}
   .debt-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
   .debt-name{font-size:14px;font-weight:800;color:var(--text)}
@@ -107,33 +107,33 @@
   .btn-pay{background:linear-gradient(135deg,#4CAF82,#2A9660);color:#fff;padding:6px 12px;border:none;border-radius:8px;font-family:'Nunito',sans-serif;font-size:12px;font-weight:700;cursor:pointer}
   .btn-pay:hover{transform:translateY(-1px)}
 
-  /* CATEGORY CHIPS */
+  
   .category-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
   .chip{padding:5px 12px;border-radius:99px;font-size:12px;font-weight:700;cursor:pointer;border:1.5px solid transparent;transition:all .2s}
   .chip.selected{border-color:var(--pink);background:var(--pink-pale);color:var(--pink-deep)}
   .chip:not(.selected){background:#F5E8EF;color:var(--text-soft)}
 
-  /* CHART */
+  
   .chart-bars{display:flex;align-items:flex-end;gap:6px;height:100px;margin:8px 0 4px;padding:0 4px}
   .bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px}
   .bar{width:100%;border-radius:6px 6px 0 0;transition:height .5s ease;min-height:4px;position:relative}
   .bar-label{font-size:9px;font-weight:700;color:var(--text-soft);text-align:center}
   .bar-val{font-size:9px;font-weight:800;color:var(--text-mid);text-align:center}
 
-  /* EMPTY STATE */
+ 
   .empty{text-align:center;padding:24px 16px;color:var(--text-soft)}
   .empty .emoji{font-size:36px;display:block;margin-bottom:8px}
   .empty p{font-size:13px;font-weight:600}
 
-  /* MONTH SELECTOR */
+  
   .month-bar{display:flex;align-items:center;justify-content:space-between;background:#fff;border-radius:12px;border:1.5px solid var(--border);padding:10px 14px;margin-bottom:14px}
   .month-nav{background:none;border:none;font-size:20px;cursor:pointer;color:var(--pink);padding:0 4px;font-weight:800}
   .month-label{font-size:15px;font-weight:800;color:var(--text)}
 
-  /* TAGS */
+  
   .cat-tag{font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px;background:var(--pink-pale);color:var(--pink-deep)}
 
-  /* RIBBON */
+ 
   .ribbon{background:linear-gradient(90deg,var(--pink-pale),#FFF0F5);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:700;color:var(--text-mid);display:flex;align-items:center;gap:6px;margin-bottom:10px}
 
   .divider{height:1px;background:var(--border);margin:12px 0}
@@ -516,7 +516,7 @@ function updateDashboard(){
   bb.querySelector('.summary-label').textContent=saldo>=0?'✨ Saldo':'⚠️ Saldo neg.';
   document.getElementById('dash-debt').textContent=fmt(totalDividas);
 
-  // Chart
+  
   const catChart=document.getElementById('category-chart');
   const gastos=mesLanc.filter(l=>l.tipo==='gasto');
   if(!gastos.length){catChart.innerHTML='<div class="empty"><span class="emoji">🌸</span><p>Adicione gastos para ver o gráfico</p></div>';}
@@ -535,7 +535,7 @@ function updateDashboard(){
     </div>`;
   }
 
-  // Recent
+  
   const recent=document.getElementById('recent-list');
   const all=[...lancamentos].sort((a,b)=>b.id-a.id).slice(0,4);
   if(!all.length){recent.innerHTML='<div class="empty"><span class="emoji">🎀</span><p>Nenhum lançamento ainda</p></div>';}
@@ -549,7 +549,7 @@ function updateDashboard(){
       <div class="item-amount ${l.tipo==='receita'?'income':'expense'}">${l.tipo==='receita'?'+':'-'}${fmt(l.val)}</div>
     </div>`).join('')}</div>`;}
 
-  // Debt progress
+  
   const dp=document.getElementById('debt-progress-card');
   const dpl=document.getElementById('debt-progress-list');
   const activeDividas=dividas.filter(d=>d.ativa);
@@ -567,7 +567,7 @@ function updateDashboard(){
   }
 }
 
-// set today's date
+
 const today=new Date();
 document.getElementById('data-input').value=today.toISOString().split('T')[0];
 updateDashboard();
